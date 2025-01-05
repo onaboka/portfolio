@@ -18,6 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/about', [DemoController::class, 'index']);
+Route::controller(DemoController::class)->group(function () {
+    Route::get('/about', 'index');
+    Route::get('/contact', 'contact');
+});
 
-Route::get('/contact', [DemoController::class, 'contact']);
