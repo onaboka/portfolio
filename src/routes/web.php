@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Demo\DemoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/about', function () {
-    return view('about');
-});
+Route::get('/about', [DemoController::class, 'index']);
 
-Route::get('/contact', function () {
-    return view('contact');
-});
+Route::get('/contact', [DemoController::class, 'contact']);
