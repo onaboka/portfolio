@@ -26,21 +26,21 @@ class AuthenticatedSessionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'login' => ['required', 'string'], // Это универсальное поле
+            'login' => ['required', 'string'], // Unique field
             'password' => ['required', 'string'],
         ]);
 
-        // Определяем, что ввел пользователь: email или username
+        // Logic of email or username
         $loginField = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        // Пытаемся аутентифицировать пользователя
+        // Try auth user
         if (Auth::attempt([$loginField => $request->login, 'password' => $request->password], $request->boolean('remember'))) {
             $request->session()->regenerate();
 
             return redirect()->intended(RouteServiceProvider::HOME);
         }
 
-        // Если аутентификация не удалась
+        // If auth is failed
         return back()->withErrors([
             'login' => __('The provided credentials do not match our records.'),
         ])->onlyInput('login');
